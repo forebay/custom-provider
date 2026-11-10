@@ -53,7 +53,7 @@ jobs:
       tag: ${{ inputs.tag }}
       patch_ceiling: 20
       require_clean_readme: false
-      unscoped_name: 'custom-auth'
+      unscoped_name: 'custom-provider'
       scope: 'intisy-ai'
       scoped_only: true
       pin_file_deps: true

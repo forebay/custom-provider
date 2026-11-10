@@ -22,7 +22,7 @@ public class CustomHandleIrException extends RuntimeException {
      * @param body the response body to carry through verbatim
      */
     public CustomHandleIrException(int status, Map<String, String> headers, String body) {
-        super("custom-auth handleIr error: " + status);
+        super("custom-provider handleIr error: " + status);
         this.status = status;
         this.headers = headers;
         this.body = body;

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The JS export surface over custom-auth's endpoint rules.
+ * The JS export surface over custom-provider's endpoint rules.
  *
  * <p>Every decision this provider makes about a configured endpoint is reached through here. What
  * stays outside is what needs a host: reading and writing the configuration, the account store the

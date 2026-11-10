@@ -30,7 +30,7 @@ flowchart LR
   - `src/endpoints.ts`, endpoint config lookup, model-name splitting, and the key store bridge
     (`saveKey`/`keyFor`) into core-auth's accounts.
   - `src/handler.ts`, Claude entry (exposes the IR-native `handleIr` the proxy front-door calls).
-  - `src/index.ts`, OpenCode entry (`defineProvider(driver).opencode`) and the `/custom-auth-config`
+  - `src/index.ts`, OpenCode entry (`defineProvider(driver).opencode`) and the `/custom-provider-config`
     CLI guard.
   - `src/translators.ts`, discovery of the installed vendor translators (package name to wire
     format, found by shape rather than export name).
@@ -43,21 +43,21 @@ flowchart LR
 ### Via plugin-updater (recommended)
 
 ```bash
-npx plugin-updater@latest init https://github.com/forebay/custom-auth
+npx plugin-updater@latest init https://github.com/forebay/custom-provider
 ```
 
 ### Via npm
 
 ```bash
-npm install custom-auth
+npm install custom-provider
 ```
 
-This package publishes under two names: `custom-auth` and `@intisy-ai/custom-auth`, both
+This package publishes under two names: `custom-provider` and `@intisy-ai/custom-provider`, both
 resolving to the same build.
 
 ## Configuration
 
-Config file: `<configDir>/config/custom-auth.json` (edit via the loader or `/custom-auth-config
+Config file: `<configDir>/config/custom-provider.json` (edit via the loader or `/custom-provider-config
 set`).
 
 ```json

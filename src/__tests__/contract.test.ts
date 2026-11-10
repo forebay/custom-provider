@@ -2,7 +2,7 @@
 import { runPluginContract } from "@intisy-ai/basekit/testing";
 
 runPluginContract({
-  name: "custom-auth",
+  name: "custom-provider",
   entry: "dist/index.js",
-  configName: "custom-auth",
+  configName: "custom-provider",
 });

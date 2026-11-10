@@ -8,7 +8,7 @@ let home: string;
 
 beforeEach(() => {
   vi.resetModules();
-  home = mkdtempSync(join(tmpdir(), "custom-auth-plugin-"));
+  home = mkdtempSync(join(tmpdir(), "custom-provider-plugin-"));
   process.env.HUB_CONFIG_DIR = home;
 });
 
@@ -36,7 +36,7 @@ async function activate() {
   return { plugin, provided };
 }
 
-describe("the custom-auth api plugin", () => {
+describe("the custom-provider api plugin", () => {
   it("provides exactly the capabilities its manifest declares", async () => {
     const { provided } = await activate();
     expect(Object.keys(provided).sort()).toEqual(["custom-endpoints", "provider", "settings"]);
@@ -55,7 +55,7 @@ describe("the custom-auth api plugin", () => {
 
   it("advertises one lane per configured endpoint, after its own", async () => {
     const { setConfigValue } = await import("@intisy-ai/basekit");
-    setConfigValue("custom-auth", "endpoints", [
+    setConfigValue("custom-provider", "endpoints", [
       { id: "mine", label: "Mine", baseUrl: "https://api.example.com/v1", format: "openai", models: ["m"] },
     ]);
     const { provided } = await activate();
@@ -81,7 +81,7 @@ describe("the custom-auth api plugin", () => {
 describe("writeDynamicManifest", () => {
   it("writes the home's cache file, keyed by this plugin's id", async () => {
     const { setConfigValue } = await import("@intisy-ai/basekit");
-    setConfigValue("custom-auth", "endpoints", [
+    setConfigValue("custom-provider", "endpoints", [
       { id: "mine", label: "Mine", baseUrl: "https://api.example.com/v1", format: "openai", models: ["m"] },
     ]);
     const { writeDynamicManifest } = await import("./endpoints.js");
@@ -89,14 +89,14 @@ describe("writeDynamicManifest", () => {
     const at = join(home, "cache", "dynamic-providers.json");
     expect(existsSync(at)).toBe(true);
     expect(JSON.parse(readFileSync(at, "utf8"))).toEqual({
-      "custom-auth": [{ name: "mine", repo: "custom-auth", handler: "dist/handler.js", translator: "custom", accountPool: "mine" }],
+      "custom-provider": [{ name: "mine", repo: "custom-provider", handler: "dist/handler.js", translator: "custom", accountPool: "mine" }],
     });
   });
 
   it("writes an empty list rather than removing the key when the last endpoint goes", async () => {
     const { writeDynamicManifest } = await import("./endpoints.js");
     writeDynamicManifest();
-    expect(JSON.parse(readFileSync(join(home, "cache", "dynamic-providers.json"), "utf8"))).toEqual({ "custom-auth": [] });
+    expect(JSON.parse(readFileSync(join(home, "cache", "dynamic-providers.json"), "utf8"))).toEqual({ "custom-provider": [] });
   });
 
   it("leaves another plugin's lanes untouched", async () => {
@@ -111,7 +111,7 @@ describe("writeDynamicManifest", () => {
     writeDynamicManifest();
     const parsed = JSON.parse(readFileSync(join(home, "cache", "dynamic-providers.json"), "utf8"));
     expect(parsed["other-plugin"]).toHaveLength(1);
-    expect(parsed["custom-auth"]).toEqual([]);
+    expect(parsed["custom-provider"]).toEqual([]);
   });
 
   // A host that offers no provider support cannot run a provider at all, and naming the service is

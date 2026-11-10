@@ -12,7 +12,7 @@ setActivityEmitter((spec: ActivitySpec, source: string) => emitEvent(spec, sourc
 
 /** What an app that invokes every exported function loads; an api host reads the default export. */
 export const CustomProvider = await defineProviderPlugin({
-  name: "custom-auth",
+  name: "custom-provider",
   driver: driver as never, // ProviderDef still declares the legacy `handle` field; this provider is handleIr-only
 });
 

@@ -39,7 +39,7 @@ export async function handleIr(
   const doFetch = deps.fetch ?? fetch;
   const { upstreamModel, endpoint, apiKey } = resolveEndpoint(ir.model, ctx?.handlerId);
   const translator = (await loadTranslators(ctx.configDir))[endpoint.format];
-  if (!translator) throw new HandleIrError({ status: 400, body: "custom-auth: unsupported wire format " + endpoint.format });
+  if (!translator) throw new HandleIrError({ status: 400, body: "custom-provider: unsupported wire format " + endpoint.format });
 
   const url = endpoint.baseUrl.replace(/\/$/, "") + "/chat/completions";
   const response = await doFetch(url, {
@@ -54,7 +54,7 @@ export async function handleIr(
   }
 
   if (ir.stream) {
-    if (!response.body) throw new HandleIrError({ status: 502, body: "custom-auth: upstream returned no body for a streamed request" });
+    if (!response.body) throw new HandleIrError({ status: 502, body: "custom-provider: upstream returned no body for a streamed request" });
     return response.body.pipeThrough(await translator.decodeStream());
   }
   return translator.decodeResponse(await response.text());
@@ -83,14 +83,14 @@ export const CUSTOM_SETTINGS_SCHEMA: ProviderSettingsSchema = [
 ];
 
 function getSetting(key: string): unknown {
-  if (key === "endpoints") return JSON.stringify(getConfigValue("custom-auth", "endpoints") ?? []);
-  return getConfigValue("custom-auth", key);
+  if (key === "endpoints") return JSON.stringify(getConfigValue("custom-provider", "endpoints") ?? []);
+  return getConfigValue("custom-provider", key);
 }
 
 function setSetting(key: string, value: unknown): void {
-  if (key !== "endpoints") { setConfigValue("custom-auth", key, value); return; }
-  if (value === undefined) { setConfigValue("custom-auth", "endpoints", []); }
-  else { try { setConfigValue("custom-auth", "endpoints", JSON.parse(String(value))); } catch { return; /* malformed JSON, keep prior value + manifest */ } }
+  if (key !== "endpoints") { setConfigValue("custom-provider", key, value); return; }
+  if (value === undefined) { setConfigValue("custom-provider", "endpoints", []); }
+  else { try { setConfigValue("custom-provider", "endpoints", JSON.parse(String(value))); } catch { return; /* malformed JSON, keep prior value + manifest */ } }
   writeDynamicManifest();
 }
 

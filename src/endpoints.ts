@@ -42,7 +42,7 @@ const LEGACY_POOL = "custom";
  * @returns the configured endpoints, empty when none are
  */
 export function readEndpoints(): Endpoint[] {
-  const endpoints = getConfigValue("custom-auth", "endpoints");
+  const endpoints = getConfigValue("custom-provider", "endpoints");
   return Array.isArray(endpoints) ? (endpoints as Endpoint[]) : [];
 }
 
@@ -82,7 +82,7 @@ export async function upsertEndpoint(endpoint: Endpoint, repoDir?: string): Prom
   const endpoints = readEndpoints();
   const problem = validateEndpoint(endpoint, { existing: endpoints, formats: await supportedFormats(getConfigDir()) });
   if (problem) throw new Error(problem);
-  setConfigValue("custom-auth", "endpoints", java.upsertEndpoint(endpoints, endpoint));
+  setConfigValue("custom-provider", "endpoints", java.upsertEndpoint(endpoints, endpoint));
   writeDynamicManifest();
 }
 
@@ -93,7 +93,7 @@ export async function upsertEndpoint(endpoint: Endpoint, repoDir?: string): Prom
  * @param repoDir - accepted for callers that still pass a checkout path; the manifest lives in the home
  */
 export function removeEndpoint(id: string, repoDir?: string): void {
-  setConfigValue("custom-auth", "endpoints", java.removeEndpoint(readEndpoints(), id));
+  setConfigValue("custom-provider", "endpoints", java.removeEndpoint(readEndpoints(), id));
   removeAccount(id, id, undefined);
   writeDynamicManifest();
 }
@@ -137,7 +137,7 @@ function hasKey(endpointId: string): boolean {
 export function keyFor(endpointId: string): string {
   const key = storedKey(endpointId);
   if (key === undefined) {
-    throw new HandleIrError({ status: 401, body: "custom-auth: no API key configured for endpoint " + endpointId });
+    throw new HandleIrError({ status: 401, body: "custom-provider: no API key configured for endpoint " + endpointId });
   }
   return key;
 }
@@ -168,7 +168,7 @@ export function advertisedModels(): string[] {
 }
 
 /**
- * Seeds a key into basekit/auth's account store, never into `config/custom-auth.json`.
+ * Seeds a key into basekit/auth's account store, never into `config/custom-provider.json`.
  *
  * @param endpointId - the endpoint the key belongs to
  * @param key - the API key to store
@@ -178,7 +178,7 @@ export function saveKey(endpointId: string, key: string): void {
 }
 
 /** This plugin's id, which is also its clone directory and the key its lanes are filed under. */
-const PLUGIN_ID = "custom-auth";
+const PLUGIN_ID = "custom-provider";
 
 /** One routable lane, in the shape a host's provider scan reads out of the app home. */
 export type DynamicProviderEntry = java.ManifestLane;

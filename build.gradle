@@ -1,4 +1,4 @@
-// custom-auth's Java module: a self-contained Gradle build living alongside the TS (../src,
+// custom-provider's Java module: a self-contained Gradle build living alongside the TS (../src,
 // ../package.json). Plain java-library + JUnit, matching this module's job: resolve a configured
 // endpoint (mirroring src/endpoints.ts) and run the OpenAI encode/decode half of handleIr by
 // reusing openai-translator's Java, never re-implementing it.

@@ -63,7 +63,7 @@ public final class CustomEndpointResolver {
     public static SplitModel splitModel(String model) {
         int slash = model.indexOf('/');
         if (slash < 0) {
-            throw new CustomHandleIrException(400, "custom-auth: model must be <endpointId>/<model>, got: " + model);
+            throw new CustomHandleIrException(400, "custom-provider: model must be <endpointId>/<model>, got: " + model);
         }
         return new SplitModel(model.substring(0, slash), model.substring(slash + 1));
     }
@@ -99,7 +99,7 @@ public final class CustomEndpointResolver {
         }
         Endpoint endpoint = findById(endpoints, endpointId);
         if (endpoint == null) {
-            throw new CustomHandleIrException(400, "custom-auth: unknown endpoint " + endpointId);
+            throw new CustomHandleIrException(400, "custom-provider: unknown endpoint " + endpointId);
         }
         return new Resolution(endpointId, upstreamModel, endpoint);
     }

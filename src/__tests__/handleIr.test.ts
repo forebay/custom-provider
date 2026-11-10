@@ -5,16 +5,16 @@ import { join } from "node:path";
 import { installTranslator } from "./installTranslator.js";
 
 function seedHome(): string {
-  const home = mkdtempSync(join(tmpdir(), "custom-auth-"));
+  const home = mkdtempSync(join(tmpdir(), "custom-provider-"));
   const cfg = join(home, "config");
   mkdirSync(cfg, { recursive: true });
-  writeFileSync(join(cfg, "custom-auth.json"), JSON.stringify({ endpoints: [{ id: "local", label: "Local", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
+  writeFileSync(join(cfg, "custom-provider.json"), JSON.stringify({ endpoints: [{ id: "local", label: "Local", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
   writeFileSync(join(cfg, "accounts.json"), JSON.stringify({ version: 1, providers: { custom: { accounts: [{ id: "local", refresh: "sk-test-key", enabled: true, meta: { endpointId: "local" } }], activeIndex: 0, activeIndexByLane: {} } } }));
   installTranslator(home);
   return home;
 }
 
-describe("custom-auth handleIr (openai, non-streaming)", () => {
+describe("custom-provider handleIr (openai, non-streaming)", () => {
   it("resolves the endpoint+key from the namespaced model, calls the endpoint, and decodes to IR", async () => {
     process.env.HUB_CONFIG_DIR = seedHome();
     const fetchStub = vi.fn(async () => new Response(JSON.stringify({
@@ -46,10 +46,10 @@ describe("custom-auth handleIr (openai, non-streaming)", () => {
   });
 
   it("throws a 401 HandleIrError when the endpoint has no configured key", async () => {
-    const home = mkdtempSync(join(tmpdir(), "custom-auth-"));
+    const home = mkdtempSync(join(tmpdir(), "custom-provider-"));
     const cfg = join(home, "config");
     mkdirSync(cfg, { recursive: true });
-    writeFileSync(join(cfg, "custom-auth.json"), JSON.stringify({ endpoints: [{ id: "local", label: "Local", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
+    writeFileSync(join(cfg, "custom-provider.json"), JSON.stringify({ endpoints: [{ id: "local", label: "Local", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
     writeFileSync(join(cfg, "accounts.json"), JSON.stringify({ version: 1, providers: { custom: { accounts: [], activeIndex: 0, activeIndexByLane: {} } } }));
     process.env.HUB_CONFIG_DIR = home;
 

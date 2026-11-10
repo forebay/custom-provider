@@ -5,10 +5,10 @@ import { join } from "node:path";
 import { installTranslator } from "./installTranslator.js";
 
 function seedHome(): string {
-  const home = mkdtempSync(join(tmpdir(), "custom-auth-java-"));
+  const home = mkdtempSync(join(tmpdir(), "custom-provider-"));
   const cfg = join(home, "config");
   mkdirSync(cfg, { recursive: true });
-  writeFileSync(join(cfg, "custom-auth.json"), JSON.stringify({ endpoints: [{ id: "local", label: "Local", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
+  writeFileSync(join(cfg, "custom-provider.json"), JSON.stringify({ endpoints: [{ id: "local", label: "Local", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
   writeFileSync(join(cfg, "accounts.json"), JSON.stringify({ version: 1, providers: { custom: { accounts: [{ id: "local", refresh: "sk-test-key", enabled: true, meta: { endpointId: "local" } }], activeIndex: 0, activeIndexByLane: {} } } }));
   installTranslator(home);
   return home;
@@ -17,7 +17,7 @@ function seedHome(): string {
 // Resolution is the transpiled Java's decision and translation is the installed translator's, so
 // what these assert is the seam between them: the endpoint the Java picked is the one called, with
 // the upstream model it un-namespaced, and a resolve failure crosses back as a typed error.
-describe("custom-auth handleIr, resolving through the transpiled java", () => {
+describe("custom-provider handleIr, resolving through the transpiled java", () => {
   it("calls the endpoint the java resolved, with the model it un-namespaced", async () => {
     process.env.HUB_CONFIG_DIR = seedHome();
     const fetchStub = vi.fn(async () => new Response(JSON.stringify({

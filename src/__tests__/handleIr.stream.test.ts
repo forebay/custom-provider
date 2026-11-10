@@ -5,9 +5,9 @@ import { join } from "node:path";
 import { installTranslator } from "./installTranslator.js";
 
 function seedHome(): string {
-  const home = mkdtempSync(join(tmpdir(), "custom-auth-stream-"));
+  const home = mkdtempSync(join(tmpdir(), "custom-provider-stream-"));
   const cfg = join(home, "config"); mkdirSync(cfg, { recursive: true });
-  writeFileSync(join(cfg, "custom-auth.json"), JSON.stringify({ endpoints: [{ id: "local", label: "L", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
+  writeFileSync(join(cfg, "custom-provider.json"), JSON.stringify({ endpoints: [{ id: "local", label: "L", baseUrl: "https://ep.test/v1", format: "openai", models: ["gpt-4o"] }] }));
   writeFileSync(join(cfg, "accounts.json"), JSON.stringify({ version: 1, providers: { custom: { accounts: [{ id: "local", refresh: "sk", enabled: true, meta: { endpointId: "local" } }], activeIndex: 0, activeIndexByLane: {} } } }));
   installTranslator(home);
   return home;
@@ -23,7 +23,7 @@ function sseBody(): ReadableStream<Uint8Array> {
   return new ReadableStream({ start(c) { for (const f of frames) c.enqueue(enc.encode(f)); c.close(); } });
 }
 
-describe("custom-auth handleIr (openai, streaming)", () => {
+describe("custom-provider handleIr (openai, streaming)", () => {
   it("pipes the upstream SSE through the translator into IR events", async () => {
     process.env.HUB_CONFIG_DIR = seedHome();
     const fetchStub = vi.fn(async () => new Response(sseBody(), { status: 200, headers: { "content-type": "text/event-stream" } }));

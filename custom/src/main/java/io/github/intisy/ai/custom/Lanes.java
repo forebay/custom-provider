@@ -17,7 +17,7 @@ public final class Lanes {
     }
 
     /** This plugin's id, which is also its clone directory and the key its lanes are filed under. */
-    public static final String PLUGIN_ID = "custom-auth";
+    public static final String PLUGIN_ID = "custom-provider";
 
     /** The bundle a host loads to serve a request on one of these lanes. */
     public static final String HANDLER = "dist/handler.js";

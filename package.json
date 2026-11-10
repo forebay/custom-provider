@@ -1,5 +1,5 @@
 {
-  "name": "custom-auth",
+  "name": "custom-provider",
   "version": "0.4.3",
   "description": "Generic provider for user-configured HTTP AI endpoints (IR <-> vendor wire via translator submodules), key via basekit/auth.",
   "type": "module",
@@ -8,7 +8,7 @@
   "author": "intisy",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forebay/custom-auth.git"
+    "url": "git+https://github.com/forebay/custom-provider.git"
   },
   "keywords": [
     "ai",
@@ -16,7 +16,7 @@
     "provider",
     "custom",
     "openai",
-    "custom-auth"
+    "custom-provider"
   ],
   "files": [
     "dist/",

@@ -4,7 +4,7 @@ import io.github.intisy.ai.tsemit.TsModule;
 import io.github.intisy.ai.tsemit.TsNullable;
 
 /**
- * custom-auth's JavaScript module surface, typed for a TypeScript consumer.
+ * custom-provider's JavaScript module surface, typed for a TypeScript consumer.
  *
  * @implNote Declares the shape {@code CustomProviderJs} actually exports; it is never implemented,
  * only emitted, and {@link TsModule} renders its members as free functions rather than an interface

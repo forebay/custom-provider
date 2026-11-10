@@ -10,10 +10,10 @@ const ENDPOINTS = [
 ];
 
 function seedHome(accounts: Record<string, unknown> = {}): string {
-  const home = mkdtempSync(join(tmpdir(), "custom-auth-dyn-"));
+  const home = mkdtempSync(join(tmpdir(), "custom-provider-dyn-"));
   const cfg = join(home, "config");
   mkdirSync(cfg, { recursive: true });
-  writeFileSync(join(cfg, "custom-auth.json"), JSON.stringify({ endpoints: ENDPOINTS }));
+  writeFileSync(join(cfg, "custom-provider.json"), JSON.stringify({ endpoints: ENDPOINTS }));
   writeFileSync(join(cfg, "accounts.json"), JSON.stringify({ version: 1, providers: accounts }));
   process.env.HUB_CONFIG_DIR = home;
   installTranslator(home);
@@ -26,8 +26,8 @@ describe("buildDynamicManifest / writeDynamicManifest", () => {
     seedHome();
     const { buildDynamicManifest } = await import("../endpoints.js");
     expect(buildDynamicManifest()).toEqual([
-      { name: "local", repo: "custom-auth", handler: "dist/handler.js", translator: "custom", accountPool: "local" },
-      { name: "corp", repo: "custom-auth", handler: "dist/handler.js", translator: "custom", accountPool: "corp" },
+      { name: "local", repo: "custom-provider", handler: "dist/handler.js", translator: "custom", accountPool: "local" },
+      { name: "corp", repo: "custom-provider", handler: "dist/handler.js", translator: "custom", accountPool: "corp" },
     ]);
   });
 
@@ -37,7 +37,7 @@ describe("buildDynamicManifest / writeDynamicManifest", () => {
     const { writeDynamicManifest } = await import("../endpoints.js");
     writeDynamicManifest();
     const written = JSON.parse(readFileSync(join(home, "cache", "dynamic-providers.json"), "utf-8"));
-    expect(written["custom-auth"].map((e: { name: string }) => e.name)).toEqual(["local", "corp"]);
+    expect(written["custom-provider"].map((e: { name: string }) => e.name)).toEqual(["local", "corp"]);
   });
 });
 

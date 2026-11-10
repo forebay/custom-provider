@@ -8,7 +8,7 @@ import { expect, it } from "vitest";
 const repo = fileURLToPath(new URL("../..", import.meta.url));
 
 it("keeps the committed seam declarations identical to what the java emits", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "custom-auth-dts-"));
+  const scratch = mkdtempSync(join(tmpdir(), "custom-provider-dts-"));
   execFileSync(process.execPath, [
     join(repo, "node_modules", "@intisy", "bayonet", "scripts", "emit-dts.mjs"),
     "--java-dir", repo,

@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@intisy/bayonet/schema/plugin.schema.json",
-  "id": "custom-auth",
+  "id": "custom-provider",
   "api": 1,
   "entry": "dist/index.js",
   "displayName": "Custom endpoints",

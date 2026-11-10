@@ -51,7 +51,7 @@ const plugin: Plugin = {
     context.provide(context.capability<CustomEndpointsCapability>("custom-endpoints"), customEndpoints());
     context.provide(context.capability<SettingsCapability>("settings"), {
       schema: () => CUSTOM_SETTINGS,
-      run: async (actionId: string) => ({ ok: false, message: `custom-auth declares no action "${actionId}"` }),
+      run: async (actionId: string) => ({ ok: false, message: `custom-provider declares no action "${actionId}"` }),
     });
     // A throwing activate quarantines the whole plugin, so a cache-write failure must never
     // escape here; index.ts's own republish never runs from the deployed bundle path (its

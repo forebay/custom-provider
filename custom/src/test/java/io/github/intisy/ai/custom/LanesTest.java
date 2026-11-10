@@ -22,7 +22,7 @@ class LanesTest {
         List<Map<String, Object>> entries = Lanes.dynamicManifest(endpoints());
         assertEquals(2, entries.size());
         assertEquals("groq", entries.get(0).get("name"));
-        assertEquals("custom-auth", entries.get(0).get("repo"));
+        assertEquals("custom-provider", entries.get(0).get("repo"));
         assertEquals("dist/handler.js", entries.get(0).get("handler"));
         assertEquals("custom", entries.get(0).get("translator"));
         // Each endpoint is a first-class provider with its own key pool, named after itself.

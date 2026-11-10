@@ -7,7 +7,7 @@ import { formatOf, loadTranslators, resetTranslatorCacheForTests, supportedForma
 let home: string;
 
 beforeEach(() => {
-  home = mkdtempSync(join(tmpdir(), "custom-auth-translators-"));
+  home = mkdtempSync(join(tmpdir(), "custom-provider-translators-"));
   resetTranslatorCacheForTests();
 });
 

@@ -1,4 +1,4 @@
-// custom-auth carries no bundled front-door: basekit/auth's createProviderPlugin resolves the
+// custom-provider carries no bundled front-door: basekit/auth's createProviderPlugin resolves the
 // app-shaped hooks from whatever AppFrontDoor the app layer (a loader) published at runtime via
 // HUB_APP_FRONTDOOR. With no front-door published and no out-of-process proxy configured, the
 // plugin is inert (no app-shaped hooks to build).
@@ -11,7 +11,7 @@ let dir: string;
 let saved: Record<string, string | undefined>;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), "custom-auth-offline-frontdoor-"));
+  dir = mkdtempSync(join(tmpdir(), "custom-provider-offline-frontdoor-"));
   mkdirSync(join(dir, "config"), { recursive: true });
   saved = {
     HUB_CONFIG_DIR: process.env.HUB_CONFIG_DIR,
@@ -36,7 +36,7 @@ afterEach(() => {
   rmSync(dir, { recursive: true, force: true });
 });
 
-describe("custom-auth with no injected front-door", () => {
+describe("custom-provider with no injected front-door", () => {
   it("returns an inert plugin (no app-shaped hooks) instead of bundling its own front-door", async () => {
     // @ts-ignore build artifact (produced by `npm run build`)
     const { CustomProvider } = await import("../../dist/index.js");
