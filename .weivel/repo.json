@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "importName": "custom-provider",
+  "description": "Sends requests to HTTP AI endpoints the user configures.",
+  "topics": [
+    "ai",
+    "ai-provider",
+    "ai-proxy",
+    "forebay",
+    "llm",
+    "provider",
+    "typescript"
+  ]
+}
